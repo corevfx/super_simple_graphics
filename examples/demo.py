@@ -2,7 +2,7 @@
 """
 Created on Fri Mar 20 15:52:11 2020
 
-@author: MAYI
+@author: Kevin Ma
 """
 
 from super_simple_graphics.canvas import *

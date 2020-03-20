@@ -2,7 +2,7 @@
 """
 Created on Fri Mar 20 16:06:25 2020
 
-@author: MAYI
+@author: Kevin Ma
 """
 
 import math, random, sys
