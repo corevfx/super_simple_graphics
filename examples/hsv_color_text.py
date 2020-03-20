@@ -14,7 +14,7 @@ number_of_text = 17
 text_gap = 15
 y_offset = -100
 
-sg.create_win(w,h)
+sg.create_canvas(w,h)
 sg.fill_canvas_hsv(50,25,230)
 
     
@@ -33,4 +33,4 @@ sg.set_pen_color_hsv(0,0,0)
 sg.draw_text(w/2,h-number_of_text*text_gap+y_offset,w,h,text)
 
 
-sg.show_window()
+sg.show_canvas()

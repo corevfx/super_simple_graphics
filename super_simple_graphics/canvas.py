@@ -34,6 +34,7 @@ class CanvasWindow(QtWidgets.QWidget):
         self.h = h
         self.resize(w,h)
         self.setFixedSize(w,h)
+        self.setWindowTitle("Super Simple Graphics - by Kevin Ma")
         
         ## image buffer
         self._main_buffer = QtGui.QPixmap(w,h)
@@ -401,7 +402,7 @@ class CanvasWindow(QtWidgets.QWidget):
         self.painter.translate(x,y)
 
         
-def create_win(w=1000,h=800):
+def create_canvas(w=1000,h=800):
     """
     Creates a windows with given width and height.
     
@@ -414,7 +415,7 @@ def create_win(w=1000,h=800):
     app = QtWidgets.QApplication(sys.argv)
     canvas = CanvasWindow(w,h)
 
-def show_window():
+def show_canvas():
     """
     Shows the window that was created previously using create_win() function.
     """

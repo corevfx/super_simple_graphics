@@ -8,7 +8,7 @@ Created on Fri Mar 20 16:07:35 2020
 import math, random 
 from super_simple_graphics.canvas import *
 
-create_win(1000,800)
+create_canvas(1000,800)
 fill_canvas_hsv(50,25,250)
 
 set_brush_color(200,100,100)
@@ -33,4 +33,4 @@ for i in range(0, 25):
     draw_text(centre_x, centre_y+60, 200, 100, style)
 
 
-show_window()
+show_canvas()

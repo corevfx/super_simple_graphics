@@ -140,8 +140,8 @@ def demo():
     draw_rounded_rect(550,650,100,50,10,5)
     draw_static_text(650,650-20,"draw_rounded_rect")
 
-create_win()
+create_canvas()
 
 demo()
 
-show_window()
+show_canvas()

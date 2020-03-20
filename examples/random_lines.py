@@ -13,7 +13,7 @@ h = 600
 number_of_lines = 100
 max_pen_width = 30
 
-create_win(w,h)
+create_canvas(w,h)
 
 for i in range(number_of_lines):
     set_pen_width(random.random()*max_pen_width)
@@ -21,4 +21,4 @@ for i in range(number_of_lines):
     draw_line(i*(w/number_of_lines), 0, i*(w/number_of_lines), random.random()*h)
     
     
-show_window()
+show_canvas()

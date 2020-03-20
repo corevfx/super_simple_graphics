@@ -7,10 +7,10 @@ Created on Fri Mar 20 16:05:08 2020
 
 from super_simple_graphics.canvas import *
 
-create_win(600,200)
+create_canvas(600,200)
 
 fill_canvas(255,200,200)
 set_font_size(80)
 draw_text(300,100,600,200,"Hello World")
 
-show_window()
+show_canvas()
