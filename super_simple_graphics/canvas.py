@@ -474,7 +474,7 @@ def set_pen_color_hsv(h, s, v, alpha=255):
     Pen is used to draw the outline of the shape.
     HSV stands for Hue, Saturation, Value
     h is in the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
-    s is in the range 0 - 250.
+    s is in the range 0 - 255.
     v is in the range 0 - 255.
     
     :param h: The hue of the color.
@@ -588,7 +588,7 @@ def set_brush_color_hsv(h, s, v, alpha=255):
     Brush is used to fill the shapes.
     HSV stands for Hue, Saturation, Value
     h is in the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
-    s is in the range 0 - 250.
+    s is in the range 0 - 255.
     v is in the range 0 - 255.
     """
     pass
@@ -631,12 +631,12 @@ def fill_canvas(r, g, b, alpha=255):
     pass
 
 @callmine
-def fill_canvas_hsv(r, g, b, alpha=255):
+def fill_canvas_hsv(h, s, v, alpha=255):
     """
     Fill the canvas with color defined by h, s, v, alpha.
     HSV stands for Hue, Saturation, Value
     h is in the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
-    s is in the range 0 - 250.
+    s is in the range 0 - 255.
     v is in the range 0 - 255.
     """
     pass
