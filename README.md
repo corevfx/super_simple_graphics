@@ -79,6 +79,8 @@ show_window()
 
 
 ### Use for Graphics Design
+#### Draw Panda
+![draw panda](images/draw_panda.jpg)
 
 ### Use for Data Visualization
 #### Pie Chart
