@@ -79,6 +79,9 @@ show_window()
 
 
 ### Use for Graphics Design
+#### HSV Color Text
+![hsv color text](images/hsv_color_text.jpg)
+
 #### Draw Panda
 ![draw panda](images/draw_panda.jpg)
 
