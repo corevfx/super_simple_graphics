@@ -225,24 +225,27 @@ class CanvasWindow(QtWidgets.QWidget):
         
     @setup
     def draw_rect_with_rot(self, x, y, w, h, angle):
-        self.set_origin(x,y)
-        self.rotate(angle)
+        self.save_stat()
+        self.translate_origin(x,y)
+        self.rotate_origin(angle)
         self.painter.drawRect(0-w/2.0, 0-h/2.0, w, h)
-        self.reset_origin()
+        self.restore_stat()
         
     @setup
     def draw_rect_with_rot_tl(self, x, y, w, h, angle):
-        self.set_origin(x,y)
-        self.rotate(angle)
+        self.save_stat()
+        self.translate_origin(x,y)
+        self.rotate_origin(angle)
         self.painter.drawRect(0, 0, w, h)
-        self.reset_origin()
+        self.restore_stat()
         
     @setup
     def draw_rect_with_rot_bl(self, x, y, w, h, angle):
-        self.set_origin(x,y)
-        self.rotate(angle)
+        self.save_stat()
+        self.translate_origin(x,y)
+        self.rotate_origin(angle)
         self.painter.drawRect(0, 0-h, w, h)
-        self.reset_origin()
+        self.restore_stat()
         
     @setup
     def draw_rounded_rect(self, x, y, w, h, x_radius, y_radius):
@@ -258,10 +261,11 @@ class CanvasWindow(QtWidgets.QWidget):
         
     @setup
     def draw_ellipse_with_rot(self, x, y, w, h, angle):
-        self.set_origin(x,y)
-        self.rotate(angle)
+        self.save_stat()
+        self.translate_origin(x,y)
+        self.rotate_origin(angle)
         self.painter.drawEllipse(0-w/2.0,0-h/2.0,w,h)
-        self.reset_origin()
+        self.restore_stat()
         
     @setup
     def draw_pie(self, x, y, radius, start_angle, span_angle):
@@ -296,13 +300,14 @@ class CanvasWindow(QtWidgets.QWidget):
         
     @setup
     def draw_polygon_with_rot(self, points, x, y, angle):
-        self.set_origin(x,y)
-        self.rotate(angle)
+        self.save_stat()
+        self.translate_origin(x,y)
+        self.rotate_origin(angle)
         polygon = QtGui.QPolygonF() 
         for p in points:
             polygon.append(QtCore.QPointF(p[0]-x, p[1]-y))
         self.painter.drawPolygon(polygon)
-        self.reset_origin()
+        self.restore_stat()
         
     @setup
     def draw_polyline(self, points):
@@ -366,10 +371,11 @@ class CanvasWindow(QtWidgets.QWidget):
         
     @setup
     def draw_static_text_with_rot(self, x, y, text, angle):
-        self.set_origin(x,y)
-        self.rotate(angle)
+        self.save_stat()
+        self.translate_origin(x,y)
+        self.rotate_origin(angle)
         self.painter.drawStaticText(0,0,QtGui.QStaticText(text))
-        self.reset_origin()
+        self.restore_stat()
     
     @setup
     def draw_text(self, x, y, w, h, text):
@@ -391,15 +397,24 @@ class CanvasWindow(QtWidgets.QWidget):
         color = self.image_buffer.pixelColor(x,y)
         result =(color.red(), color.green(), color.blue())
         return result
+    
+    def save_stat(self):
+        self.painter.save()
         
-    def rotate(self, d):
-        self.painter.rotate(d)
+    def restore_stat(self):
+        self.painter.restore()
         
     def reset_origin(self):
         self.painter.resetTransform()
         
-    def set_origin(self, x, y):
+    def translate_origin(self, x, y):
         self.painter.translate(x,y)
+        
+    def rotate_origin(self, d):
+        self.painter.rotate(d)
+        
+    def scale_origin(self, sx, sy):
+        self.painter.scale(sx, sy)
 
         
 def create_canvas(w=1000,h=800):
@@ -882,7 +897,11 @@ def set_buffer_image(image_path):
     pass
 
 @callmine
-def rotate(d):
+def save_stat():
+    pass
+
+@callmine
+def restore_stat():
     pass
 
 @callmine
@@ -890,7 +909,15 @@ def reset_origin():
     pass
 
 @callmine
-def set_origin():
+def translate_origin():
+    pass
+
+@callmine
+def rotate_origin():
+    pass
+
+@callmine
+def scale_origin(sx, sy):
     pass
 
 def get_brush_style_dict():

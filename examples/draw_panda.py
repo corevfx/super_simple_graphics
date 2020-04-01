@@ -46,8 +46,16 @@ def draw_panda(x, y):
 sg.create_canvas(w,h)
 sg.fill_canvas(200,200,200)
 
-for i in range(10):
+for i in range(5):
     for j in range(3):
-        draw_panda(i*200+100,j*200+100)
+        x = i*200+100
+        y = j*200+100
+        sg.reset_origin()        
+        sg.translate_origin(x,y)
+        sg.rotate_origin(random.uniform(-30,30))
+        sc = random.uniform(0.5,1)
+        sg.scale_origin(sc, sc)
+        draw_panda(0,0)
+
 
 sg.show_canvas()
