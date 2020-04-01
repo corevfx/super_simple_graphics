@@ -45,7 +45,7 @@ sg.show_window()
 ```
 ## Examples:
 ### Create random circles
-![random dots](images/random_dots.png)
+![random dots](images/random_points.jpg)
 ```
 import math, random 
 from super_simple_graphics.canvas import *
@@ -79,6 +79,11 @@ show_window()
 
 
 ### Use for Graphics Design
+#### HSV Color Text
+![hsv color text](images/hsv_color_text.jpg)
+
+#### Draw Panda
+![draw panda](images/draw_panda.jpg)
 
 ### Use for Data Visualization
 #### Pie Chart
