@@ -45,7 +45,7 @@ sg.show_window()
 ```
 ## Examples:
 ### Create random circles
-![random dots](images/random_dots.png)
+![random dots](images/random_points.jpg)
 ```
 import math, random 
 from super_simple_graphics.canvas import *
