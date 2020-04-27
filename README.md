@@ -23,11 +23,11 @@ Just put below code to run a demo to see most of the graphics functions.
 # Import all the functions
 from super_simple_graphics.canvas import *
 # Create the canvas first!
-create_win()
+create_canvas()
 # Then call the drawing functions to create graphics
 demo()
 # In the end, show the canvas!
-show_window()
+show_canvas()
 ```
 The result of demo
 ![demo](images/demo.jpg)
@@ -37,11 +37,11 @@ Just put below code to run a demo to see most of the graphics functions.
 # Import all the functions
 import super_simple_graphics.canvas as sg
 # Create the canvas first!
-sg.create_win()
+sg.create_canvas()
 # Then call the drawing functions to create graphics
 sg.demo()
 # In the end, show the canvas!
-sg.show_window()
+sg.show_canvas()
 ```
 ## Examples:
 ### Create random circles
@@ -50,12 +50,12 @@ sg.show_window()
 import math, random 
 from super_simple_graphics.canvas import *
 
-create_win()
+create_canvas()
 for i in range(100):
     set_pen_width(random.random()*200)
     set_pen_color(random.random()*255,0,0,random.random()*255)
     draw_point(i*10, random.random()*800)
-show_window()
+show_canvas()
 
 ```
 ### Create random lines
@@ -64,12 +64,12 @@ show_window()
 import math, random 
 from super_simple_graphics.canvas import *
 
-create_win()
+create_canvas()
 for i in range(100):
     set_pen_width(random.random()*50)
     set_pen_color(random.random()*255,0,0,random.random()*255)
     draw_line(i*10, 0, i*10, random.random()*800)
-show_window()
+show_canvas()
 
 ```
 ### For other examples, please look into the examples folder for details.
