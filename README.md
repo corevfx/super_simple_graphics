@@ -76,9 +76,13 @@ show_canvas()
 [Click here for more examples](https://github.com/corevfx/super_simple_graphics/blob/master/examples/readme.md)
 
 ### Use for Generative Art
-
+#### Circles 01
+![circles 01](images/generative_art_circles_01.jpg)
 
 ### Use for Graphics Design
+#### Tokyo Bus
+![tokyo bus](images/tokyo_bus.jpg)
+
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
 
