@@ -14,7 +14,7 @@ h = 1000
 def circle_stack(x, y, max_radius, num_of_circles, right_center):
     sg.set_brush_color(random.randrange(100,255),200,200)
     sg.set_pen_color(0,0,0)
-    pen_width = random.uniform(1,5)
+    pen_width = 2
     sg.set_pen_width(pen_width)
     #draw the bg circle
     if right_center:
@@ -25,8 +25,6 @@ def circle_stack(x, y, max_radius, num_of_circles, right_center):
     # draw all the on-top circles with no filling color
     sg.set_brush_color(0,0,0,0)
     for i in range(num_of_circles):
-        pen_width = random.uniform(1,5)
-        sg.set_pen_width(pen_width)
         radius = max_radius*random.uniform(0,1)
         if right_center:
             sg.draw_circle(x-radius-pen_width,y,radius)

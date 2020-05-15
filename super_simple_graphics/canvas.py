@@ -27,11 +27,12 @@ def setup(func):
     return w
 
 class CanvasWindow(QtWidgets.QWidget):
-    def __init__(self, w=1000, h=800, parent=None):
+    def __init__(self, w=1000, h=800, lb_origin=True, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         
         self.w = w
         self.h = h
+        self.lb_origin = lb_origin
         self.resize(w,h)
         self.setFixedSize(w,h)
         self.setWindowTitle("Super Simple Graphics - by Kevin Ma")
@@ -63,7 +64,7 @@ class CanvasWindow(QtWidgets.QWidget):
         self.display_overlay = False
         
         ## current buffer and painter
-        self.painter = self.main_buffer_painter 
+        self.painter = self.main_buffer_painter
         
         ## set up font
         self.font = self.painter.font()
@@ -72,6 +73,13 @@ class CanvasWindow(QtWidgets.QWidget):
         self.image_path = ""
         self.image_buffer = None
         
+        ## need to set to a new origin
+        self._init_coord_sys()
+        
+    def _init_coord_sys(self):
+        if self.lb_origin:
+            self.painter.translate(0,self.h)
+            self.overlay_painter.translate(0,self.h)
         
     def _set_to_main_buffer_painter(self):
         self.painter = self.main_buffer_painter
@@ -79,13 +87,13 @@ class CanvasWindow(QtWidgets.QWidget):
     def _set_to_overlay_painter(self):
         self.painter = self.overlay_painter
         
-    def _draw_coord_overlay(self, point):
+    def _draw_coord_overlay(self, x, y):
         self._set_to_overlay_painter()
         set_pen_color(0,0,0)
         set_pen_width(2)
-        draw_point(point.x(), point.y())
+        draw_point(x, y)
         set_font_size(10)
-        draw_static_text(point.x(), point.y(), "("+str(point.x())+","+str(point.y())+")")
+        draw_static_text(x, y, "("+str(x)+","+str(y)+")")
         self._set_to_main_buffer_painter()
     
     def _toggle_display_overlay(self):
@@ -101,11 +109,18 @@ class CanvasWindow(QtWidgets.QWidget):
         event_painter.drawPixmap(0,0,self._main_buffer)
         if self.display_overlay:
             event_painter.drawPixmap(0,0,self._overlay_buffer)
+        #event_painter.end()
         
     def mousePressEvent(self, event):
+        ### NOTE: The event.pos() will give you the location whose origin is still the top-left corner!
+        ###       even though the origin might be moved to other location already !!!
         if event.button() == QtCore.Qt.LeftButton:
             last_point = event.pos()
-            self._draw_coord_overlay(last_point)
+            x = last_point.x()
+            y = last_point.y()
+            if self.lb_origin:
+                y = self.h-y
+            self._draw_coord_overlay(x,y)
         if event.button() == QtCore.Qt.RightButton:
             self._set_to_overlay_painter()
             self._overlay_buffer.fill(QtGui.QColor(0,0,0,0))
@@ -155,24 +170,28 @@ class CanvasWindow(QtWidgets.QWidget):
         self.brush.setStyle(s)
         
     def set_brush_style_linear_gradient(self, x1, y1, x2, y2, r1=0, g1=0, b1=0, r2=255, g2=255, b2=255):
-        lg = QtGui.QLinearGradient(x1,y1,x2,y2)
+        r = -1 if self.lb_origin else 1
+        lg = QtGui.QLinearGradient(x1,r*y1,x2,r*y2)
         lg.setColorAt(0, QtGui.QColor(r1,g1,b1))
         lg.setColorAt(1, QtGui.QColor(r2,g2,b2))
         self.brush = QtGui.QBrush(lg)
         
     def set_brush_style_radial_gradient(self, x, y, radius, r1=0, g1=0, b1=0, r2=255, g2=255, b2=255):
-        rg = QtGui.QRadialGradient(x,y,radius)
+        r = -1 if self.lb_origin else 1
+        rg = QtGui.QRadialGradient(x,r*y,radius)
         rg.setColorAt(0, QtGui.QColor(r1,g1,b1))
         rg.setColorAt(1, QtGui.QColor(r2,g2,b2))
         self.brush = QtGui.QBrush(rg)
         
     def set_brush_style_conical_gradient(self, x, y, angle, r1=0, g1=0, b1=0, r2=255, g2=255, b2=255):
-        cg = QtGui.QConicalGradient(x,y,angle)
+        r = -1 if self.lb_origin else 1
+        cg = QtGui.QConicalGradient(x,r*y,angle)
         cg.setColorAt(0, QtGui.QColor(r1,g1,b1))
         cg.setColorAt(1, QtGui.QColor(r2,g2,b2))
         self.brush = QtGui.QBrush(cg)
         
     def set_brush_gradient_color_at(self, position, r, g, b):
+        # this position is a single float number!
         grad = self.brush.gradient()
         grad.setColorAt(position, QtGui.QColor(r,g,b))
         
@@ -204,24 +223,33 @@ class CanvasWindow(QtWidgets.QWidget):
         self.font = font
         
     def fill_canvas(self, r, g, b, alpha=255):
-        self.painter.fillRect(0,0,self.w,self.h,QtGui.QColor(r,g,b,alpha))
+        if self.lb_origin:
+            self.painter.fillRect(0,-self.h,self.w,self.h,QtGui.QColor(r,g,b,alpha))
+        else:
+            self.painter.fillRect(0,0,self.w,self.h,QtGui.QColor(r,g,b,alpha))
         
     def fill_canvas_hsv(self, h, s, v, alpha=255):
         c = QtGui.QColor()
         c.setHsv(h,s,v,alpha)
-        self.painter.fillRect(0,0,self.w,self.h,c)
+        if self.lb_origin:
+            self.painter.fillRect(0,-self.h,self.w,self.h,c)
+        else:
+            self.painter.fillRect(0,0,self.w,self.h,c)
         
     @setup
     def draw_point(self, x, y):
-        self.painter.drawPoint(x, y)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawPoint(x, r*y)
         
     @setup
     def draw_line(self, x1, y1, x2, y2):
-        self.painter.drawLine(x1,y1,x2,y2)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawLine(x1,r*y1,x2,r*y2)
         
     @setup
     def draw_rect(self, x, y, w, h):
-        self.painter.drawRect(x-w/2.0, y-h/2.0, w, h)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawRect(x-w/2.0, r*y-h/2.0, w, h)
         
     @setup
     def draw_rect_with_rot(self, x, y, w, h, angle):
@@ -249,53 +277,65 @@ class CanvasWindow(QtWidgets.QWidget):
         
     @setup
     def draw_rounded_rect(self, x, y, w, h, x_radius, y_radius):
-        self.painter.drawRoundedRect(x-w/2.0,y-h/2.0,w,h,x_radius,y_radius)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawRoundedRect(x-w/2.0,r*y-h/2.0,w,h,x_radius,y_radius)
         
     @setup
     def draw_circle(self, x, y, radius):
-        self.painter.drawEllipse(x-radius,y-radius,radius*2,radius*2)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawEllipse(x-radius,r*y-radius,radius*2,radius*2)
         
     @setup
     def draw_ellipse(self, x, y, w, h):
-        self.painter.drawEllipse(x-w/2.0,y-h/2.0,w,h)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawEllipse(x-w/2.0,r*y-h/2.0,w,h)
         
     @setup
     def draw_ellipse_with_rot(self, x, y, w, h, angle):
         self.save_stat()
         self.translate_origin(x,y)
         self.rotate_origin(angle)
+        # Because the translate_origin() will take lb_origin flag into consideration, 
+        # so no need to modify the point coordinates.
         self.painter.drawEllipse(0-w/2.0,0-h/2.0,w,h)
         self.restore_stat()
         
     @setup
     def draw_pie(self, x, y, radius, start_angle, span_angle):
-        self.painter.drawPie(x-radius,y-radius,radius*2,radius*2,start_angle*16,span_angle*16)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawPie(x-radius,r*y-radius,radius*2,radius*2,start_angle*16,span_angle*16)
         
     @setup
     def draw_elliptical_pie(self, x, y, x_radius, y_radius, start_angle, span_angle):
-        self.painter.drawPie(x-x_radius,y-y_radius,x_radius*2,y_radius*2,start_angle*16,span_angle*16)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawPie(x-x_radius,r*y-y_radius,x_radius*2,y_radius*2,start_angle*16,span_angle*16)
         
     @setup
     def draw_arc(self, x, y, radius, start_angle, span_angle):
-        self.painter.drawArc(x-radius/2.0,y-radius/2.0,radius,radius,start_angle*16,span_angle*16)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawArc(x-radius/2.0,r*y-radius/2.0,radius,radius,start_angle*16,span_angle*16)
         
     @setup
     def draw_elliptical_arc(self, x, y, x_radius, y_radius, start_angle, span_angle):
-        self.painter.drawArc(x-x_radius,y-y_radius,x_radius*2,y_radius*2,start_angle*16,span_angle*16)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawArc(x-x_radius,r*y-y_radius,x_radius*2,y_radius*2,start_angle*16,span_angle*16)
         
     @setup
     def draw_chord(self, x, y, radius, start_angle, span_angle):
-        self.painter.drawChord(x-radius,y-radius,radius*2.0,radius*2.0,start_angle*16,span_angle*16)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawChord(x-radius,r*y-radius,radius*2.0,radius*2.0,start_angle*16,span_angle*16)
         
     @setup
     def draw_elliptical_chord(self, x, y, x_radius, y_radius, start_angle, span_angle):
-        self.painter.drawChord(x-x_radius,y-y_radius,x_radius*2.0,y_radius*2.0,start_angle*16,span_angle*16)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawChord(x-x_radius,r*y-y_radius,x_radius*2.0,y_radius*2.0,start_angle*16,span_angle*16)
         
     @setup
     def draw_polygon(self, points):
         polygon = QtGui.QPolygonF() 
         for p in points:
-            polygon.append(QtCore.QPointF(p[0], p[1]))
+            r = -1 if self.lb_origin else 1
+            polygon.append(QtCore.QPointF(p[0], r*p[1]))
         self.painter.drawPolygon(polygon)
         
     @setup
@@ -305,7 +345,8 @@ class CanvasWindow(QtWidgets.QWidget):
         self.rotate_origin(angle)
         polygon = QtGui.QPolygonF() 
         for p in points:
-            polygon.append(QtCore.QPointF(p[0]-x, p[1]-y))
+            r = -1 if self.lb_origin else 1
+            polygon.append(QtCore.QPointF(p[0]-x, r*(p[1] - y)))
         self.painter.drawPolygon(polygon)
         self.restore_stat()
         
@@ -313,7 +354,8 @@ class CanvasWindow(QtWidgets.QWidget):
     def draw_polyline(self, points):
         polyline = QtGui.QPolygonF() 
         for p in points:
-            polyline.append(QtCore.QPointF(p[0], p[1]))
+            r = -1 if self.lb_origin else 1
+            polyline.append(QtCore.QPointF(p[0], r*p[1]))
         self.painter.drawPolyline(polyline)
         
     @setup
@@ -329,11 +371,13 @@ class CanvasWindow(QtWidgets.QWidget):
         new_pts.append(points[-2])
         new_pts.append(points[-1])
         path = QtGui.QPainterPath()
-        path.moveTo(new_pts[0][0],new_pts[0][1])
+        r = -1 if self.lb_origin else 1
+        path.moveTo(new_pts[0][0],r*new_pts[0][1])
         for j in range(len(new_pts))[:-1]:
             if j%2 == 1:
                 continue
-            path.quadTo(new_pts[j+1][0],new_pts[j+1][1],new_pts[j+2][0],new_pts[j+2][1])
+            r = -1 if self.lb_origin else 1
+            path.quadTo(new_pts[j+1][0],r*new_pts[j+1][1],new_pts[j+2][0],r*new_pts[j+2][1])
             
         self.painter.drawPath(path)
         
@@ -357,35 +401,45 @@ class CanvasWindow(QtWidgets.QWidget):
         new_pts.append(points[-2])
         new_pts.append(points[-1])
         path = QtGui.QPainterPath()
-        path.moveTo(new_pts[0][0],new_pts[0][1])
+        r = -1 if self.lb_origin else 1
+        path.moveTo(new_pts[0][0],r*new_pts[0][1])
         for j in range(len(new_pts))[:-1]:
             if j%2 == 1:
                 continue
-            path.quadTo(new_pts[j+1][0],new_pts[j+1][1],new_pts[j+2][0],new_pts[j+2][1])
+            ir = -1 if self.lb_origin else 1
+            path.quadTo(new_pts[j+1][0],r*new_pts[j+1][1],new_pts[j+2][0],r*new_pts[j+2][1])
             
         self.painter.drawPath(path)
         
     @setup
     def draw_static_text(self, x, y, text):
-        self.painter.drawStaticText(x,y,QtGui.QStaticText(text))
+        font_size = self.font.pixelSize()
+        r = -1 if self.lb_origin else 1
+        self.painter.drawStaticText(x,r*y-font_size,QtGui.QStaticText(text))
         
     @setup
     def draw_static_text_with_rot(self, x, y, text, angle):
         self.save_stat()
         self.translate_origin(x,y)
         self.rotate_origin(angle)
-        self.painter.drawStaticText(0,0,QtGui.QStaticText(text))
+        font_size = self.font.pixelSize()
+        self.painter.drawStaticText(0,-font_size,QtGui.QStaticText(text))
         self.restore_stat()
     
     @setup
     def draw_text(self, x, y, w, h, text):
-        self.painter.drawText(QtCore.QRect(x-w/2.0,y-h/2.0,w,h),QtCore.Qt.AlignCenter,text)
+        # not
+        r = -1 if self.lb_origin else 1
+        self.painter.drawText(QtCore.QRect(x-w/2.0,r*y-h/2.0,w,h),QtCore.Qt.AlignCenter,text)
         
     def draw_image(self, x, y, sx, sy, sw, sh, image_path):
+        # not
         image = QtGui.QImage(image_path)
-        self.painter.drawImage(x,y,image,sx,sy,sw,sh)
+        r = -1 if self.lb_origin else 1
+        self.painter.drawImage(x,r*y,image,sx,sy,sw,sh)
         
     def set_buffer_image(self,image_path):
+        # not
         p = os.path.abspath(image_path)
         if not os.path.isfile(p):
             raise Exception("The image specified '"+p+"' does not exist!")
@@ -394,7 +448,9 @@ class CanvasWindow(QtWidgets.QWidget):
             self.image_buffer = QtGui.QImage(p)
         
     def get_color_from_buffer_image(self, x, y):
-        color = self.image_buffer.pixelColor(x,y)
+        # not
+        r = -1 if self.lb_origin else 1
+        color = self.image_buffer.pixelColor(x,r*y)
         result =(color.red(), color.green(), color.blue())
         return result
     
@@ -406,9 +462,11 @@ class CanvasWindow(QtWidgets.QWidget):
         
     def reset_origin(self):
         self.painter.resetTransform()
+        self._init_coord_sys()
         
     def translate_origin(self, x, y):
-        self.painter.translate(x,y)
+        r = -1 if self.lb_origin else 1
+        self.painter.translate(x,r*y)
         
     def rotate_origin(self, d):
         self.painter.rotate(d)
@@ -435,7 +493,10 @@ def show_canvas():
     Shows the window that was created previously using create_win() function.
     """
     canvas.show()
+    
     app.exec_()
+    canvas.main_buffer_painter.end()
+    canvas.overlay_painter.end()
     #sys.exit(app.exec_())
       
 @callmine
@@ -837,7 +898,7 @@ def draw_polygon_with_rot(points, x, y, angle):
 @callmine
 def draw_polyline(points):
     """
-    Draws the polyline defined by the given points.
+    Draws the polyline defined by the given points. Note it won't be filled with brush.
     
     :param points: The points is a list of tuples specifying the points' positions. 
     :type points: list of tuples. Example, [(1,5),(200.7,40),(23,45.0)]
@@ -934,7 +995,7 @@ def draw_grid(w=1000,h=800,spacing=50):
     Draws the grid in the rectangle defined by w and h.
     And the spacing distance between grid lines is specified by spacing.
     """
-    for i in range(0,w,spacing):
+    for i in range(0,w+1,spacing):
         draw_line(i,0,i,h)
-    for j in range(0,h,spacing):
+    for j in range(0,h+1,spacing):
         draw_line(0,j,w,j)

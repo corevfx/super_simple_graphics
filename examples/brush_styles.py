@@ -30,7 +30,7 @@ for i in range(0, 25):
     if style == "TexturePattern":
         set_brush_style_texture("../images/tile_tex.jpg")
     draw_rect(centre_x, centre_y, 100, 100)
-    draw_text(centre_x, centre_y+60, 200, 100, style)
+    draw_text(centre_x, centre_y-60, 200, 100, style)
 
 
 show_canvas()
