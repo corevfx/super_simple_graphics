@@ -50,11 +50,18 @@ sg.show_canvas()
 import math, random 
 from super_simple_graphics.canvas import *
 
-create_canvas()
-for i in range(100):
-    set_pen_width(random.random()*200)
+w=1000
+h=600
+number_of_points = 100
+max_pen_width = 200
+
+create_canvas(w,h)
+
+for i in range(number_of_points):
+    set_pen_width(random.random()*max_pen_width)
     set_pen_color(random.random()*255,0,0,random.random()*255)
-    draw_point(i*10, random.random()*800)
+    draw_point(i*(w/number_of_points), random.random()*h)
+    
 show_canvas()
 
 ```
@@ -64,11 +71,19 @@ show_canvas()
 import math, random 
 from super_simple_graphics.canvas import *
 
-create_canvas()
-for i in range(100):
-    set_pen_width(random.random()*50)
+w = 1000
+h = 600
+number_of_lines = 100
+max_pen_width = 30
+
+create_canvas(w,h)
+
+for i in range(number_of_lines):
+    set_pen_width(random.random()*max_pen_width)
     set_pen_color(random.random()*255,0,0,random.random()*255)
-    draw_line(i*10, 0, i*10, random.random()*800)
+    draw_line(i*(w/number_of_lines), h, i*(w/number_of_lines), random.random()*h)
+    
+    
 show_canvas()
 
 ```
