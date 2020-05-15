@@ -109,7 +109,7 @@ show_canvas()
 ![pie chart](images/data_viz_pie_chart.jpg)
 
 #### Bar Chart
-![bar chart](images/data_viz_bar_chart.JPG)
+![bar chart](images/data_viz_bar_chart.jpg)
 
 ## Tools:
 ### System Color Dialog
