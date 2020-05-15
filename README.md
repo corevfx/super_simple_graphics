@@ -106,10 +106,10 @@ show_canvas()
 
 ### Use for Data Visualization
 #### Pie Chart
-![pie chart](images/pie_chart.jpg)
+![pie chart](images/data_viz_pie_chart.jpg)
 
 #### Bar Chart
-![bar chart](images/bar_chart_data_viz.JPG)
+![bar chart](images/data_viz_bar_chart.JPG)
 
 ## Tools:
 ### System Color Dialog
