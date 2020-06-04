@@ -98,6 +98,9 @@ show_canvas()
 #### Tokyo Bus
 ![tokyo bus](images/tokyo_bus.jpg)
 
+#### Kyoto
+![kyoto](images/kyoto.jpg)
+
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
 
