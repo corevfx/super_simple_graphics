@@ -56,7 +56,7 @@ for i in range(5):
         sg.translate_origin(x,y)
         sg.rotate_origin(random.uniform(-30,30))
         sc = random.uniform(0.5,1)
-        sg.scale_origin(sc, sc)
+        sg.scale_origin(sc)
         draw_panda(0,0)
 
 

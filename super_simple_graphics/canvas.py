@@ -27,7 +27,7 @@ def setup(func):
     return w
 
 class CanvasWindow(QtWidgets.QWidget):
-    def __init__(self, w=1000, h=800, lb_origin=True, parent=None):
+    def __init__(self, w=1000, h=800, a=None, lb_origin=True, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         
         self.w = w
@@ -43,6 +43,7 @@ class CanvasWindow(QtWidgets.QWidget):
         ## the main buffer painter
         self.main_buffer_painter = QtGui.QPainter(self._main_buffer)
         self.main_buffer_painter.setRenderHint(QtGui.QPainter.Antialiasing)
+        self.main_buffer_painter.setRenderHint(QtGui.QPainter.TextAntialiasing)
         
         ## set up pen
         self.pen = QtGui.QPen(QtGui.QColor(0,0,0)) 
@@ -75,6 +76,14 @@ class CanvasWindow(QtWidgets.QWidget):
         
         ## need to set to a new origin
         self._init_coord_sys()
+        
+        ## users animation
+        if a:
+            self.a = a
+            
+    def ea(self):
+        self.a()
+        self.update()
         
     def _init_coord_sys(self):
         if self.lb_origin:
@@ -471,23 +480,23 @@ class CanvasWindow(QtWidgets.QWidget):
     def rotate_origin(self, d):
         self.painter.rotate(d)
         
-    def scale_origin(self, sx, sy):
-        self.painter.scale(sx, sy)
+    def scale_origin(self, s):
+        self.painter.scale(s, s)
 
         
 def create_canvas(w=1000,h=800):
     """
     Creates a windows with given width and height.
     
-    :param w: The width of the window.
-    :type w: int, defaults to 1000
-    :param h: The height of the window.
-    :type h: int, defaults to 600
+    w: int
+        The width of the window.
+    h: int
+        The height of the window.
     """
     global app, canvas
     app = QtWidgets.QApplication(sys.argv)
     canvas = CanvasWindow(w,h)
-
+    
 def show_canvas():
     """
     Shows the window that was created previously using create_win() function.
@@ -497,15 +506,43 @@ def show_canvas():
     app.exec_()
     canvas.main_buffer_painter.end()
     canvas.overlay_painter.end()
-    #sys.exit(app.exec_())
+
+
+def create_canvas_a(w=1000,h=800,a=None):
+    """
+    Creates a windows with given width and height.
+    
+    w: int
+        The width of the window.
+    h: int
+        The height of the window.
+    """
+    global app, canvas
+    app = QtWidgets.QApplication(sys.argv)
+    canvas = CanvasWindow(w,h,a)
+    
+def show_canvas_a():
+    """
+    Shows the window that was created previously using create_win() function.
+    """
+    timer = QtCore.QTimer()
+    timer.timeout.connect(canvas.ea)
+    timer.start(100)
+    
+    canvas.show()
+    
+    app.exec_()
+    canvas.main_buffer_painter.end()
+    canvas.overlay_painter.end()
+
       
 @callmine
 def set_pen_width(w):
     """
     Set pen width to the given value.
     
-    :param w: The pen width.
-    :type w: int
+    w: int
+        The pen width.
     """
     pass
 
@@ -514,14 +551,14 @@ def set_pen_style(style):
     """
     Sets the pen style.
     
-    :param style: The string representation of the following pen styles: 
-        "NoPen", 
-        "SolidLine", 
-        "DashLine", 
-        "DotLine", 
-        "DashDotLine", 
-        "DashDotDotLine".
-    :type style: string
+    style: string
+        The string representation of the following pen styles: 
+            "NoPen", 
+            "SolidLine", 
+            "DashLine", 
+            "DotLine", 
+            "DashDotLine", 
+            "DashDotDotLine".
     """
     
 @callmine
@@ -532,14 +569,14 @@ def set_pen_color(r, g, b, alpha=255):
     The value range of r, g, b, or alpha is 0 - 255. 
     0 is black and 255 is white.
     
-    :param r: The red component of the color.
-    :type r: int
-    :param g: The green component of the color.
-    :type g: int
-    :param b: The blue component of the color.
-    :type b: int
-    :param alpha: The alpha channel of a color.
-    :type alpha: int, defaults to 255
+    r: int
+        The red component of the color.
+    g: int
+        The green component of the color.
+    b: int
+        The blue component of the color.
+    alpha: int 
+        The alpha channel of a color.
     """
     pass
 
@@ -553,14 +590,14 @@ def set_pen_color_hsv(h, s, v, alpha=255):
     s is in the range 0 - 255.
     v is in the range 0 - 255.
     
-    :param h: The hue of the color.
-    :type h: int
-    :param s: The saturation of the color.
-    :type s: int
-    :param v: The value of the color.
-    :type v: int
-    :param alpha: The alpha channel of a color.
-    :type alpha: int, defaults to 255
+    h: int
+        The hue of the color.
+    s: int
+        The saturation of the color.
+    v: int
+        The value of the color.
+    alpha: int 
+        The alpha channel of a color.
     """
     pass
 
@@ -578,8 +615,8 @@ def set_brush_style(style):
         ConicalGradientPattern -> set_brush_style_conical_gradient()
         TexturePattern -> set_brush_style_texture()
         
-    :param style: The brush style.
-    :type style: string
+    style: string
+        The brush style.
     """
     pass
 
@@ -589,26 +626,26 @@ def set_brush_style_linear_gradient(x1, y1, x2, y2, r1=0, g1=0, b1=0, r2=255, g2
     Sets brush style to linear gradient with interpolation area between (x1, y1) and (x2, y2) and interpolation color 
     between (r1,g1,b1) and (r2,g2,b2).
     
-    :param x1: The x coordinate of the start point of the gradient.
-    :type x1: int
-    :param y1: The y coordinate of the start point of the gradient.
-    :type y1: int
-    :param x2: The x coordinate of the end point of the gradient.
-    :type x2: int
-    :param y2: The y coordinate of the end point of the gradient.
-    :type y2: int
-    :param r1: The red component of the start color of the gradient.
-    :type r1: int
-    :param g1: The green component of the start color of the gradient.
-    :type g1: int
-    :param b1: The blue component of the start color of the gradient.
-    :type b1: int
-    :param r2: The red component of the end color of the gradient.
-    :type r2: int
-    :param g2: The green component of the end color of the gradient.
-    :type g2: int
-    :param b2: The blue component of the end color of the gradient.
-    :type b2: int
+    x1: int
+        The x coordinate of the start point of the gradient.
+    y1: int
+        The y coordinate of the start point of the gradient.
+    x2: int
+        The x coordinate of the end point of the gradient.
+    y2: int
+        The y coordinate of the end point of the gradient.
+    r1: int
+        The red component of the start color of the gradient.
+    g1: int
+        The green component of the start color of the gradient.
+    b1: int
+        The blue component of the start color of the gradient.
+    r2: int
+        The red component of the end color of the gradient.
+    g2: int
+        The green component of the end color of the gradient.
+    b2: int
+        The blue component of the end color of the gradient.
     """
     pass
 
@@ -617,6 +654,25 @@ def set_brush_style_radial_gradient(x, y, radius, r1=0, g1=0, b1=0, r2=255, g2=2
     """
     Sets brush style to radial gradient with interpolation area between centre (x1, y1) and position that is radius distance away from centre
     and interpolation color between (r1,g1,b1) and (r2,g2,b2).
+    
+    x: int
+        The x coordinate of the start point of the gradient.
+    y: int
+        The y coordinate of the start point of the gradient.
+    radius: int
+        The radius of the radial gradient.
+    r1: int
+        The red component of the start color of the gradient.
+    g1: int
+        The green component of the start color of the gradient.
+    b1: int
+        The blue component of the start color of the gradient.
+    r2: int
+        The red component of the end color of the gradient.
+    g2: int
+        The green component of the end color of the gradient.
+    b2: int
+        The blue component of the end color of the gradient.
     """
     pass
 
@@ -626,15 +682,46 @@ def set_brush_style_conical_gradient(x, y, angle, r1=0, g1=0, b1=0, r2=255, g2=2
     Sets brush style to conical gradient with the given center (cx, cy), starting the interpolation at the given angle. 
     The angle must be specified in degrees between 0 and 360.
     Interpolation color is between (r1,g1,b1) and (r2,g2,b2).
+    
+    x: int
+        The x coordinate of the start point of the gradient.
+    y: int
+        The y coordinate of the start point of the gradient.
+    angle: int
+        The angle of the start of the interpolation.
+    r1: int
+        The red component of the start color of the gradient.
+    g1: int
+        The green component of the start color of the gradient.
+    b1: int
+        The blue component of the start color of the gradient.
+    r2: int
+        The red component of the end color of the gradient.
+    g2: int
+        The green component of the end color of the gradient.
+    b2: int
+        The blue component of the end color of the gradient.
     """
     pass
 
 @callmine
 def set_brush_gradient_color_at(position, r, g, b):
     """
+    Sets the gradient color at a position.
+    
     This function must be used AFTER either one of the three functions is used:
         set_brush_style_linear_gradient(), set_brush_style_radial_gradient() or set_brush_style_conical_gradient()
     Position value must be in the range of (0-1). 0 meaning the start of the gradient, 1 meaning the end of the gradient.
+    
+    position: int
+        The position of the gradient. 
+    r: int
+        The red component of the color.
+    g: int
+        The green component of the color.
+    b: int
+        The blue component of the color.
+    
     """
     pass
 
@@ -643,8 +730,8 @@ def set_brush_style_texture(texture):
     """
     Sets brush pixmap to texture. 
     
-    :param texture: The path to a texture image file.
-    :type texture: string
+    texture: string
+        The path to a texture image file.
     """
     pass
     
@@ -662,10 +749,15 @@ def set_brush_color_hsv(h, s, v, alpha=255):
     """
     Sets the brush color to a color defined by h, s, v, alpha.
     Brush is used to fill the shapes.
-    HSV stands for Hue, Saturation, Value
-    h is in the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
-    s is in the range 0 - 255.
-    v is in the range 0 - 255.
+    HSV stands for Hue, Saturation, Value.
+    h:
+        Hue of the color. In the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
+    s:
+        Saturation of the color. In the range 0 - 255.
+    v:
+        Value of the color. In the range 0 - 255.
+    alpha:
+        alpha value of the color. In the range 0-255.
     """
     pass
 
@@ -676,6 +768,11 @@ def set_font(font_name, font_size):
     Example, set_font("Helvatica", 42)
     In the tools folder, there is a tool (display_fonts.py) can be used to see 
     all available fonts on your current Operating System. 
+    
+    font_name: string
+        The name/family of the font.
+    font_size: int
+        The height of the font in pixels.
     """
     pass
 
@@ -686,6 +783,9 @@ def set_font_size(font_size):
     Example, set_font(42)
     In the tools folder, there is a tool (display_fonts.py) can be used to see 
     all available fonts on your current Operating System. 
+    
+    font_size: int
+        The height of the font in pixels.
     """
     pass
 
@@ -696,6 +796,13 @@ def set_font_n_style(font_name, font_size, font_style):
     Example, set_font("Arial", 42, "Bold Italic")
     In the tools folder, there is a tool (display_fonts.py) can be used to see 
     all available fonts on your current Operating System. 
+    
+    font_name: string
+        The name/family of the font.
+    font_size: int
+        The height of the font in pixels.
+    font_style: string
+        The style of the font.
     """
     pass
 
@@ -711,9 +818,15 @@ def fill_canvas_hsv(h, s, v, alpha=255):
     """
     Fill the canvas with color defined by h, s, v, alpha.
     HSV stands for Hue, Saturation, Value
-    h is in the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
-    s is in the range 0 - 255.
-    v is in the range 0 - 255.
+    
+    h:
+        Hue of the color. In the range 0 - 359. Red is 0, yellow is 60, green is 120, cyan is 180, blue is 240, pink is 300.
+    s:
+        Saturation of the color. In the range 0 - 255.
+    v:
+        Value of the color. In the range 0 - 255.
+    alpha:
+        alpha value of the color. In the range 0-255.
     """
     pass
 
@@ -721,6 +834,11 @@ def fill_canvas_hsv(h, s, v, alpha=255):
 def draw_point(x, y):
     """
     Draws a single point at position (x, y).
+    
+    x: int
+        The x coordinate of the point.
+    y: int
+        The y coordicate of the point.
     """
     pass
 
@@ -728,6 +846,15 @@ def draw_point(x, y):
 def draw_line(x1, y1, x2, y2):
     """
     Draws a line from (x1, y1) to (x2, y2).
+    
+    x1: int
+        The x coordinate of the start point.
+    y1: int
+        The y coordicate of the start point.
+    x2: int
+        The x coordinate of the end point.
+    y2: int
+        The y coordicate of the end point.
     """
     pass
 
@@ -735,6 +862,15 @@ def draw_line(x1, y1, x2, y2):
 def draw_rect(x,y,w,h):
     """
     Draws a rectangle with centre at (x, y) and with the given width and height.
+    
+    x: int
+        The x coordinate of the centre point of the rectangle.
+    y: int
+        The y coordicate of the centre point of the rectangle.
+    w: int
+        The width of the rectangle.
+    h: int
+        The height of the rectangle.
     """
     pass
 
@@ -743,6 +879,17 @@ def draw_rect_with_rot(x,y,w,h,angle):
     """
     Draws a rectangle with centre at (x, y), with the given width and height and with rotation around centre.
     Rotation is in degrees and clock wise direction.
+    
+    x: int
+        The x coordinate of the centre point of the rectangle.
+    y: int
+        The y coordicate of the centre point of the rectangle.
+    w: int
+        The width of the rectangle.
+    h: int
+        The height of the rectangle.
+    angle: int
+        The rotation angle of the rectangle in degrees. Positive value for clockwise rotation.
     """
     pass
 
@@ -751,6 +898,17 @@ def draw_rect_with_rot_tl(x,y,w,h,angle):
     """
     Draws a rectangle with top left corner at (x, y), with the given width and height and with rotation around centre.
     Rotation is in degrees and clock wise direction.
+    
+    x: int
+        The x coordinate of the top left of the rectangle.
+    y: int
+        The y coordicate of the top left of the rectangle.
+    w: int
+        The width of the rectangle.
+    h: int
+        The height of the rectangle.
+    angle: int
+        The rotation angle of the rectangle in degrees. Positive value for clockwise rotation.
     """
     pass
 
@@ -759,6 +917,17 @@ def draw_rect_with_rot_bl(x,y,w,h,angle):
     """
     Draws a rectangle with bottom left corner at (x, y), with the given width and height and with rotation around centre.
     Rotation is in degrees and clock wise direction.
+    
+    x: int
+        The x coordinate of the bottom left of the rectangle.
+    y: int
+        The y coordicate of the bottom left of the rectangle.
+    w: int
+        The width of the rectangle.
+    h: int
+        The height of the rectangle.
+    angle: int
+        The rotation angle of the rectangle in degrees. Positive value for clockwise rotation.
     """
     pass
 
@@ -767,6 +936,19 @@ def draw_rounded_rect(x, y, w, h, x_radius, y_radius):
     """
     Draws the given rectangle defined by centre (x, y), w (width), h (height), with rounded corners.
     The x_radius and y_radius arguments specify the radii of the ellipses defining the corners of the rounded rectangle.
+    
+    x: int
+        The x coordinate of the bottom left of the rectangle.
+    y: int
+        The y coordicate of the bottom left of the rectangle.
+    w: int
+        The width of the rectangle.
+    h: int
+        The height of the rectangle.
+    x_radius: int
+        The x radius of the ellipse that defines the corners of the rounded rectangle. 
+    y_radius: int
+        The y radius of the ellipse that defines the corners of the rounded rectangle. 
     """
     pass
 
@@ -967,18 +1149,35 @@ def restore_stat():
 
 @callmine
 def reset_origin():
+    '''
+    Resets the origin of the world (coordinate system) to the default location (bottom left corner of the canvas).
+
+    '''
     pass
 
 @callmine
-def translate_origin():
+def translate_origin(x, y):
+    """
+    Translates the origin of the world (coordinate system) by the vector (x,y).
+    """
     pass
 
 @callmine
-def rotate_origin():
+def rotate_origin(d):
+    '''
+    Rotates the world (coordinate system) around the origin by angle of d degrees.
+
+    '''
     pass
 
 @callmine
-def scale_origin(sx, sy):
+def scale_origin(s):
+    '''
+    Scales the world (coordinate system) around the origin by s.
+    
+    s: float
+        The scale value.
+    '''
     pass
 
 def get_brush_style_dict():
