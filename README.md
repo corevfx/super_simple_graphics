@@ -107,6 +107,9 @@ show_canvas()
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
 
+#### Mandala 
+![mandala_01](images/mandala_design_01.jpg)
+
 #### Draw Panda
 ![draw panda](images/draw_panda.jpg)
 
