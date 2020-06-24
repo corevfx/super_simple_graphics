@@ -34,7 +34,7 @@ def demo():
     #draw rect
     set_pen_width(2)
     set_pen_color(255,0,0)
-    set_pen_style(2)
+    set_pen_style('DashLine')
     set_brush_color(150,150,200)
     set_brush_style("HorPattern")
     draw_rect_with_rot(100,250,100,50,10)
@@ -43,7 +43,7 @@ def demo():
     #draw circle
     set_pen_color(50,150,0)
     set_pen_width(2)
-    set_pen_style(3)
+    set_pen_style('DotLine')
     set_brush_color(250,150,100)
     set_brush_style("VerPattern")
     draw_circle(100,350,50)
@@ -52,7 +52,7 @@ def demo():
     #draw_ellipse_with_rot
     set_pen_color(50,150,200)
     set_pen_width(2)
-    set_pen_style(4)
+    set_pen_style('DashDotLine')
     set_brush_color(150,250,200)
     set_brush_style("Dense3Pattern")
     draw_ellipse_with_rot(100,450,100,70,20)
@@ -61,7 +61,7 @@ def demo():
     #draw pie
     set_pen_width(2)
     set_pen_color(200,10,230)
-    set_pen_style(5)
+    set_pen_style('DashDotDotLine')
     set_brush_color(200,200,200)
     set_brush_style("CrossPattern")
     draw_pie(100,550,50,30,240)
@@ -70,7 +70,7 @@ def demo():
     #draw elliptical pie
     set_pen_width(2)
     set_pen_color(100,190,230)
-    set_pen_style(1)
+    set_pen_style('SolidLine')
     set_brush_color(160,250,230)
     set_brush_style("DiagCrossPattern")
     draw_elliptical_pie(100,650,50,30,60,100)
@@ -137,7 +137,7 @@ def demo():
     #draw rounded rect
     set_pen_width(2)
     set_pen_color(255,100,0)
-    set_pen_style(2)
+    set_pen_style('DashLine')
     set_brush_color(150,150,200)
     set_brush_style("HorPattern")
     draw_rounded_rect(550,650,100,50,10,5)
@@ -155,7 +155,7 @@ def demo():
     #draw rect
     set_pen_width(2)
     set_pen_color(255,0,0)
-    set_pen_style(2)
+    set_pen_style('DotLine')
     set_brush_color(150,150,200)
     set_brush_style("HorPattern")
     draw_rect(1000,50,100,50)

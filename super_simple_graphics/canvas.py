@@ -169,7 +169,11 @@ class CanvasWindow(QtWidgets.QWidget):
         self.pen.setColor(c)
         
     def set_pen_style(self, style):
-        self.pen.setStyle(style)
+        style_dict = get_pen_style_dict()
+        s = style_dict.get(style)
+        if s is None:
+            raise Exception("Can not find pen style '"+str(style)+"'. Please make sure the spelling is correct.")
+        self.pen.setStyle(s)
         
     def set_brush_style(self, style):
         style_dict = get_brush_style_dict()
@@ -527,7 +531,7 @@ def show_canvas_a():
     """
     timer = QtCore.QTimer()
     timer.timeout.connect(canvas.ea)
-    timer.start(100)
+    timer.start(33)
     
     canvas.show()
     
@@ -1185,6 +1189,15 @@ def get_brush_style_dict():
     for key in dir(QtCore.Qt):
         value = getattr(QtCore.Qt, key)
         if isinstance(value, QtCore.Qt.BrushStyle):
+            result[key] = value
+            result[value] = key
+    return result
+
+def get_pen_style_dict():
+    result = {}
+    for key in dir(QtCore.Qt):
+        value = getattr(QtCore.Qt, key)
+        if isinstance(value, QtCore.Qt.PenStyle):
             result[key] = value
             result[value] = key
     return result
