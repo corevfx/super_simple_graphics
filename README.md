@@ -87,7 +87,7 @@ for i in range(number_of_lines):
 show_canvas()
 
 ```
-### For other examples, please look into the examples folder for details.
+## For other examples, please look into the examples folder for source code.
 [Click here for more examples](https://github.com/corevfx/super_simple_graphics/blob/master/examples/readme.md)
 
 ### Use for Generative Art
