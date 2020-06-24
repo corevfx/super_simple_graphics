@@ -94,6 +94,9 @@ show_canvas()
 #### Circles 01
 ![circles 01](images/generative_art_circles_01.jpg)
 
+#### Circles 02
+![circles 02](images/generative_art_circles_02.jpg)
+
 ### Use for Graphics Design
 #### Tokyo Bus
 ![tokyo bus](images/tokyo_bus.jpg)
