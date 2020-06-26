@@ -104,6 +104,9 @@ show_canvas()
 #### Kyoto
 ![kyoto](images/kyoto.jpg)
 
+#### Kyoto2
+![kyoto2](images/kyoto2.jpg)
+
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
 
