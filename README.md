@@ -101,10 +101,10 @@ show_canvas()
 #### Tokyo Bus
 ![tokyo bus](images/tokyo_bus.jpg)
 
-#### Kyoto
+#### Kyoto Koinobori - day theme
 ![kyoto](images/kyoto.jpg)
 
-#### Kyoto2
+#### Kyoto Koinobori - dark theme
 ![kyoto2](images/kyoto2.jpg)
 
 #### HSV Color Text
