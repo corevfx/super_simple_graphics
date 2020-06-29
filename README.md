@@ -4,8 +4,8 @@ So a lot of the functionalities are provided through global level functions for 
 Please check out the example source code in the examples folder, and render results in the images folder.
 
 ## How to use the python library:
-* Download the simple_graphics.py file and put in the folder where your python files are.
-* In your python files, just simply import the functions. 
+* Follow this wiki page
+  - [https://github.com/corevfx/super_simple_graphics/wiki/Set-Up-Development-Environment](https://github.com/corevfx/super_simple_graphics/wiki/Set-Up-Development-Environment)
 
 ## Documentation
 * Go to Wiki of this project for the documentation
