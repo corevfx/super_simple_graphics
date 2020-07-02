@@ -463,9 +463,10 @@ class CanvasWindow(QtWidgets.QWidget):
             self.image_buffer = QtGui.QImage(p)
         
     def get_color_from_buffer_image(self, x, y):
-        # not
-        r = -1 if self.lb_origin else 1
-        color = self.image_buffer.pixelColor(x,r*y)
+        if self.lb_origin:
+            color = self.image_buffer.pixelColor(x,self.h - y)
+        else:
+            color = self.image_buffer.pixelColor(x,y)
         result =(color.red(), color.green(), color.blue())
         return result
     
@@ -476,7 +477,6 @@ class CanvasWindow(QtWidgets.QWidget):
         self.painter.restore()
         
     def reset_origin(self):
-        #self.painter.resetTransform()
         self._init_coord_sys()
         
     def translate_origin(self, x, y):
