@@ -8,8 +8,8 @@ Created on Fri Mar 20 16:00:10 2020
 import math, random 
 from super_simple_graphics.canvas import *
 
-w=1000
-h=600
+w=600
+h=1000
 
 number_of_points = 100
 max_pen_width = 200
