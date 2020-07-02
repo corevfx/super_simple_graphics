@@ -21,20 +21,6 @@ Please check out the example source code in the examples folder, and render resu
 Just put below code to run a demo to see most of the graphics functions.
 ```
 # Import all the functions
-from super_simple_graphics.canvas import *
-# Create the canvas first!
-create_canvas()
-# Then call the drawing functions to create graphics
-demo()
-# In the end, show the canvas!
-show_canvas()
-```
-The result of demo
-![demo](images/demo.jpg)
-### More Proper Way of Writing the Demo:
-Just put below code to run a demo to see most of the graphics functions.
-```
-# Import all the functions
 import super_simple_graphics.canvas as sg
 # Create the canvas first!
 sg.create_canvas()
@@ -43,6 +29,9 @@ sg.demo()
 # In the end, show the canvas!
 sg.show_canvas()
 ```
+The result of demo
+![demo](images/demo.jpg)
+
 ## Examples:
 ### Create random circles
 ![random dots](images/random_points.jpg)
@@ -115,6 +104,9 @@ show_canvas()
 
 #### Draw Panda
 ![draw panda](images/draw_panda.jpg)
+
+#### Image Sampling
+![image sampling](images/image_sampling.jpg)
 
 ### Use for Data Visualization
 #### Pie Chart
