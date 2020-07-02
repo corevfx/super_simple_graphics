@@ -106,7 +106,7 @@ show_canvas()
 ![draw panda](images/draw_panda.jpg)
 
 #### Image Sampling
-![image sampling](images/image_sampling.jpg)
+![image sampling](images/image_sample.jpg)
 
 ### Use for Data Visualization
 #### Pie Chart
