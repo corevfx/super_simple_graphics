@@ -12,7 +12,7 @@ Please check out the example source code in the examples folder, and render resu
   - [https://github.com/corevfx/super_simple_graphics/wiki](https://github.com/corevfx/super_simple_graphics/wiki)
 
 ## Hotkeys when the canvas is shown:
-* Press s to save the image to disk.
+* Press s to save the image as file.
 * Press d to toggle the display overlay layer. Once overlay layer is displayed, Left Mouse Button click on the canvas to show the coordinates of the clicked postion, and Right Mouse Button click to erase all overlay content.
 * Press c to show the system color dialog where you can pick a color and see the r,g,b and h,s,v values that you can use in the python coding.
 * Press f to show the system font dialog where you can see all the font names, styles and sizes that you can use in the python coding.
