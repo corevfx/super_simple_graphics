@@ -18,7 +18,7 @@ Please check out the example source code in the examples folder, and render resu
 * Press f to show the system font dialog where you can see all the font names, styles and sizes that you can use in the python coding.
 
 ### Demo:
-Just put below code to run a demo to see most of the graphics functions.
+Use below code to run a demo to see most of the graphics functions.
 ```
 # Import all the functions
 import super_simple_graphics.canvas as sg
