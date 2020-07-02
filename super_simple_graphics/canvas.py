@@ -86,8 +86,10 @@ class CanvasWindow(QtWidgets.QWidget):
         self.update()
         
     def _init_coord_sys(self):
+        self.main_buffer_painter.resetTransform()
+        self.overlay_painter.resetTransform()
         if self.lb_origin:
-            self.painter.translate(0,self.h)
+            self.main_buffer_painter.translate(0,self.h)
             self.overlay_painter.translate(0,self.h)
         
     def _set_to_main_buffer_painter(self):
@@ -100,6 +102,7 @@ class CanvasWindow(QtWidgets.QWidget):
         self._set_to_overlay_painter()
         set_pen_color(0,0,0)
         set_pen_width(2)
+        set_pen_style("SolidLine")
         draw_point(x, y)
         set_font_size(10)
         draw_static_text(x, y, "("+str(x)+","+str(y)+")")
@@ -118,7 +121,6 @@ class CanvasWindow(QtWidgets.QWidget):
         event_painter.drawPixmap(0,0,self._main_buffer)
         if self.display_overlay:
             event_painter.drawPixmap(0,0,self._overlay_buffer)
-        #event_painter.end()
         
     def mousePressEvent(self, event):
         ### NOTE: The event.pos() will give you the location whose origin is still the top-left corner!
@@ -474,7 +476,7 @@ class CanvasWindow(QtWidgets.QWidget):
         self.painter.restore()
         
     def reset_origin(self):
-        self.painter.resetTransform()
+        #self.painter.resetTransform()
         self._init_coord_sys()
         
     def translate_origin(self, x, y):
