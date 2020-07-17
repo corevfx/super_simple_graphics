@@ -96,6 +96,9 @@ show_canvas()
 #### Kyoto Koinobori - dark theme
 ![kyoto2](images/kyoto2.jpg)
 
+#### Balloons
+![balloons](images/ballons_01.jpg)
+
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
 
