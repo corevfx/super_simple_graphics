@@ -97,7 +97,7 @@ show_canvas()
 ![kyoto2](images/kyoto2.jpg)
 
 #### Balloons
-![balloons](images/ballons_01.jpg)
+![balloons](images/balloons_01.jpg)
 
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
