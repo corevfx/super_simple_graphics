@@ -27,7 +27,7 @@ for item in circles:
     sg.draw_circle(item[0],item[1],item[2])
 
 
-# draw thicker black background circles    
+# draw thicker white background circles    
 for item in circles:
     sg.set_pen_color(255,255,255)
     sg.set_pen_width(3*2)
