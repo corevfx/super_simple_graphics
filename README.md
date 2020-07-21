@@ -99,6 +99,9 @@ show_canvas()
 #### Balloons
 ![balloons](images/balloons_01.jpg)
 
+#### Sky Lantern
+![sky lantern](images/sky_lantern.jpg)
+
 #### HSV Color Text
 ![hsv color text](images/hsv_color_text.jpg)
 
