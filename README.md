@@ -111,6 +111,12 @@ show_canvas()
 #### Draw Panda
 ![draw panda](images/draw_panda.jpg)
 
+#### Draw Panda Shaded
+![draw panda shaded](images/draw_panda_shaded.jpg)
+
+#### Color Gradient for Shading
+![gradient for shading](images/gradient_for_shading.jpg)
+
 #### Image Sampling
 ![image sampling](images/image_sample.jpg)
 
