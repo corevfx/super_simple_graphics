@@ -117,6 +117,9 @@ show_canvas()
 #### Color Gradient for Shading
 ![gradient for shading](images/gradient_for_shading.jpg)
 
+#### Draw Image
+![draw_image](images/draw_image.jpg)
+
 #### Image Sampling
 ![image sampling](images/image_sample.jpg)
 
